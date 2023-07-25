@@ -6,21 +6,29 @@ const categories = [
     text: "전체보기",
   },
   {
-    name: "gathering",
+    name: "PART",
     text: "모집중",
   },
   {
-    name: "doing",
+    name: "REC",
     text: "진행중",
   },
   {
-    name: "done",
+    name: "COMP",
     text: "완료",
+  },
+  {
+    name: "mine",
+    text: "내 글",
+  },
+  {
+    name: "write",
+    text: "글 작성",
   },
 ];
 
 const CategoriesBlock = styled.div`\
-  margin-top:3px;;
+  margin-top:6px;
   float:right;
   display: flex;
   overflow-x: auto;
@@ -41,7 +49,7 @@ const Category = styled.div`
   ${(props) =>
     props.active &&
     css`
-      font-weight: 600;
+      font-weight: 800;
       border-bottom: 2px solid #000000;
       color: #000000;
       &:hover {
@@ -49,7 +57,7 @@ const Category = styled.div`
       }
     `}
   &.active {
-    font-weight: 600;
+    font-weight: 800;
     border-bottom: 2px solid #000000;
     color: #22b8cf;
     &:hover {

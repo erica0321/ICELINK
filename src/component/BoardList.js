@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import BoardItem from "./BoardItem";
+import WriteBoard from "./WriteBoard";
+import ShowBoard from "./ShowBoard";
 import axios from "axios";
 
 const BoardListBlock = styled.div`
@@ -27,7 +29,7 @@ const BoardList = ({ category }) => {
       try {
         const response = await axios.get(url);
         let boards_filter = response.data.boards.filter(
-          (data) => data.BoardType === category
+          (data) => data.BoardType === category,
         );
         if (category === "all") {
           boards_filter = response.data.boards;
@@ -48,7 +50,12 @@ const BoardList = ({ category }) => {
   if (!boards) {
     return null;
   }
-
+  if (category === "mine") {
+    return <ShowBoard />;
+  }
+  if (category === "write") {
+    return <WriteBoard />;
+  }
   return (
     <BoardListBlock>
       <div></div>

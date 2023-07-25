@@ -3,46 +3,51 @@ import { useState } from "react";
 import "./style/SignUp.css";
 import axios from "axios";
 
-function createBtnHandle() {
-  /* 
-  const userId = document.getElementById("userID");
-  const userName = document.getElementById("userName");
-  const userPass = document.getElementById("userPass");
-  const userEmail = document.getElementById("userEmail");
-  alert("회원가입 되셨습니다. 로그인 하십시오.");
-  axios.post("/newMemFile", {
-    name: userName,
-    Id: userId,
-    user_pw: userPass,
-    mail: userEmail,
-  }); */
-}
-
 function SignUp(props) {
-  const url = "/newMemFile.json";
-  const [Id, setId] = useState();
+  const [id, setId] = useState();
+  const [userPassword, setPW] = useState();
   const [name, setName] = useState();
-  const [user_pw, setPW] = useState();
   const [mail, setMail] = useState();
+  const [sex, setSex] = useState("남자");
+  const [role, setRole] = useState("Member");
+  const [ranking, setRanking] = useState(1);
+
+  const data = { id, userPassword, name, mail, sex, role };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(url, { Id, name, user_pw, mail }).then((response) => {
-      console.log(response);
-    });
+    alert("회원가입 되셨습니다. 로그인 하십시오.");
+    axios
+      .post("/api/user/userRegister", {
+        id,
+        name,
+        userPassword,
+        mail,
+        sex,
+        role,
+        ranking,
+      })
+      .then((response) => {
+        console.log(response);
+        window.location.replace("/signIn");
+      });
+    console.log(data);
   };
-
+  // function createBtnHandle(props) {
+  //   alert("회원가입 되셨습니다. 로그인 하십시오.");
+  //   axios.post("/newMemFile", data);
+  // }
   return (
-    <div class="main-container">
-      <div class="main-wrap">
+    <div className="main-container">
+      <div className="main-wrap">
         <form
-          class="signUp-input-section-wrap"
+          className="signUp-input-section-wrap"
           action=""
-          id="login"
+          id="signUp"
           method="post"
           onSubmit={handleSubmit}
         >
-          <div class="signUp-input-wrap">
+          <div className="signUp-input-wrap">
             <input
               type="text"
               name="userName"
@@ -52,27 +57,50 @@ function SignUp(props) {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div class="signUp-input-wrap padding-wrap">
+          <div className="signUp-input-wrap padding-wrap">
             <input
               type="text"
               name="userId"
               id="userId"
               placeholder="User ID"
-              value={Id}
+              value={id}
               onChange={(e) => setId(e.target.value)}
             />
           </div>
-          <div class="signUp-input-wrap padding-wrap">
+          <div className="signUp-input-wrap padding-wrap">
             <input
               type="password"
               name="userPass"
               id="userPass"
               placeholder="Password"
-              value={user_pw}
+              value={userPassword}
               onChange={(e) => setPW(e.target.value)}
             />
           </div>
-          <div class="signUp-input-wrap padding-wrap">
+          <div className="signUp-input-wrap padding-wrap ">
+            <div className="radio-wrap-name">성별</div>
+            <div className="radio-wrap">
+              <input
+                type="radio"
+                name="userSex"
+                id="userSex_M"
+                value="남자"
+                checked={sex === "남자"}
+                onChange={(e) => setSex(e.target.value)}
+              />
+              남자
+              <input
+                type="radio"
+                name="userSex"
+                id="userSex_W"
+                value="여자"
+                checked={sex === "여자"}
+                onChange={(e) => setSex(e.target.value)}
+              />
+              여자
+            </div>
+          </div>
+          <div className="signUp-input-wrap padding-wrap">
             <input
               type="email"
               name="userEmail"
@@ -81,6 +109,38 @@ function SignUp(props) {
               value={mail}
               onChange={(e) => setMail(e.target.value)}
             />
+          </div>
+          <div className="signUp-input-wrap padding-wrap ">
+            <div className="radio-wrap-type">유형</div>
+            <div className="radio-wrap">
+              <input
+                type="radio"
+                name="userType"
+                id="userType_dev"
+                value="Member"
+                checked={role === "Member"}
+                onChange={(e) => setRole(e.target.value)}
+              />
+              개발자
+              <input
+                type="radio"
+                name="userType"
+                id="userType_com"
+                value="Enterprise"
+                checked={role === "Enterprise"}
+                onChange={(e) => setRole(e.target.value)}
+              />
+              회사
+              <input
+                type="radio"
+                name="userType"
+                id="userType_ad"
+                value="ADMIN"
+                checked={role === "ADMIN"}
+                onChange={(e) => setRole(e.target.value)}
+              />
+              관리자
+            </div>
           </div>
           {/*           <div class="signUp-input-wrap padding-wrap">
             <input
@@ -92,7 +152,7 @@ function SignUp(props) {
           </div> */}
         </form>
 
-        <div class="signUp-button-wrap">
+        <div className="signUp-button-wrap">
           <button onClick={handleSubmit}>Sign Up</button>
         </div>
       </div>
